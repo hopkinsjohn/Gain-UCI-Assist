@@ -1,0 +1,1623 @@
+-- Basic Framework Plugin
+-- by QSC
+-- October 2020
+
+-- Information block for the plugin
+PluginInfo = {
+  Name = "OnyxAV~Gain Assist",
+  Version = "1.0",
+  BuildVersion = "0.0.0.203",
+  Id = "28502640-a834-4d47-b4b3-c3112ecb7f48",
+  Author = "jhopkins",
+  Description = "Gain Assist"  
+}
+
+
+-- Define the color of the plugin object in the design
+function GetColor(props)
+  return { 0, 87, 150 }
+end
+
+-- The name that will initially display when dragged into a design
+function GetPrettyName(props)
+  --return "Gain Assist, version " .. PluginInfo.Version
+  local n = props["Number Of Gains"].Value
+  local v = PluginInfo.Version
+  local s = string.format("Gain Assist %ix, v%s", n, v)
+  return s
+end
+
+-- Define User configurable Properties of the plugin
+function GetProperties()
+  local props = {}
+    
+    table.insert(props, { 
+      Name = "Number Of Gains",
+      Type = "integer",
+      Min = 1,
+      Max = 10,
+      Value = 1,  
+    })
+    
+    table.insert(props, { 
+      Name = "Max Gain 1 (dB)",
+      Type = "double",
+      Min = -100,
+      Max = 20,
+      Value = 20,  
+    })
+    table.insert(props, { 
+      Name = "Min Gain 1 (dB)",
+      Type = "double",
+      Min = -100,
+      Max = 20,
+      Value = -100,  
+    })
+    
+    table.insert(props, { 
+    Name = "Max Gain 2 (dB)",
+    Type = "double",
+    Min = -100,
+    Max = 20,
+    Value = 20,  
+    })
+    table.insert(props, { 
+      Name = "Min Gain 2 (dB)",
+      Type = "double",
+      Min = -100,
+      Max = 20,
+      Value = -100,  
+    })
+    
+    table.insert(props, { 
+    Name = "Max Gain 3 (dB)",
+    Type = "double",
+    Min = -100,
+    Max = 20,
+    Value = 20,  
+    })
+    table.insert(props, { 
+      Name = "Min Gain 3 (dB)",
+      Type = "double",
+      Min = -100,
+      Max = 20,
+      Value = -100,  
+    })
+    
+    table.insert(props, { 
+    Name = "Max Gain 4 (dB)",
+    Type = "double",
+    Min = -100,
+    Max = 20,
+    Value = 20,  
+    })
+    table.insert(props, { 
+      Name = "Min Gain 4 (dB)",
+      Type = "double",
+      Min = -100,
+      Max = 20,
+      Value = -100,  
+    })
+    
+    table.insert(props, { 
+    Name = "Max Gain 5 (dB)",
+    Type = "double",
+    Min = -100,
+    Max = 20,
+    Value = 20,  
+    })
+    table.insert(props, { 
+      Name = "Min Gain 5 (dB)",
+      Type = "double",
+      Min = -100,
+      Max = 20,
+      Value = -100,  
+    })
+    
+    table.insert(props, { 
+      Name = "Max Gain 6 (dB)",
+      Type = "double",
+      Min = -100,
+      Max = 20,
+      Value = 20,  
+    })
+    table.insert(props, { 
+      Name = "Min Gain 6 (dB)",
+      Type = "double",
+      Min = -100,
+      Max = 20,
+      Value = -100,  
+    })
+    
+    table.insert(props, { 
+      Name = "Max Gain 7 (dB)",
+      Type = "double",
+      Min = -100,
+      Max = 20,
+      Value = 20,  
+    })
+    table.insert(props, { 
+      Name = "Min Gain 7 (dB)",
+      Type = "double",
+      Min = -100,
+      Max = 20,
+      Value = -100,  
+    })
+    
+    table.insert(props, { 
+      Name = "Max Gain 8 (dB)",
+      Type = "double",
+      Min = -100,
+      Max = 20,
+      Value = 20,  
+    })
+    table.insert(props, { 
+      Name = "Min Gain 8 (dB)",
+      Type = "double",
+      Min = -100,
+      Max = 20,
+      Value = -100,  
+    })
+    
+    table.insert(props, { 
+      Name = "Max Gain 9 (dB)",
+      Type = "double",
+      Min = -100,
+      Max = 20,
+      Value = 20,  
+    })
+    table.insert(props, { 
+      Name = "Min Gain 9 (dB)",
+      Type = "double",
+      Min = -100,
+      Max = 20,
+      Value = -100,  
+    })
+    
+    table.insert(props, { 
+      Name = "Max Gain 10 (dB)",
+      Type = "double",
+      Min = -100,
+      Max = 20,
+      Value = 20,  
+    })
+    table.insert(props, { 
+      Name = "Min Gain 10 (dB)",
+      Type = "double",
+      Min = -100,
+      Max = 20,
+      Value = -100,  
+    })
+    
+    
+    
+    
+    
+    
+    
+  return props
+end
+
+-- Optional function to define pins on the plugin that are not connected to a Control
+function GetPins(props)
+  local pins = {}
+  
+  
+  
+  for x = 1, props["Number Of Gains"].Value do
+    table.insert(
+      pins,
+      {
+        Name = "Meter " .. x,
+        Direction = "input"
+      }
+    )
+  end
+  
+  return pins
+end
+
+-- Optional function to update available properties when properties are altered by the user
+function RectifyProperties(props)
+  
+  
+  props["Max Gain 2 (dB)"].IsHidden = true 
+  props["Max Gain 3 (dB)"].IsHidden = true 
+  props["Max Gain 4 (dB)"].IsHidden = true 
+  props["Max Gain 5 (dB)"].IsHidden = true 
+  props["Max Gain 6 (dB)"].IsHidden = true 
+  props["Max Gain 7 (dB)"].IsHidden = true 
+  props["Max Gain 8 (dB)"].IsHidden = true 
+  props["Max Gain 9 (dB)"].IsHidden = true 
+  props["Max Gain 10 (dB)"].IsHidden = true 
+  
+  props["Min Gain 2 (dB)"].IsHidden = true 
+  props["Min Gain 3 (dB)"].IsHidden = true 
+  props["Min Gain 4 (dB)"].IsHidden = true 
+  props["Min Gain 5 (dB)"].IsHidden = true 
+  props["Min Gain 6 (dB)"].IsHidden = true 
+  props["Min Gain 7 (dB)"].IsHidden = true 
+  props["Min Gain 8 (dB)"].IsHidden = true 
+  props["Min Gain 9 (dB)"].IsHidden = true 
+  props["Min Gain 10 (dB)"].IsHidden = true 
+  
+  if props["Number Of Gains"].Value > 1 then 
+    props["Max Gain 2 (dB)"].IsHidden = false 
+    props["Min Gain 2 (dB)"].IsHidden = false 
+  end
+  if props["Number Of Gains"].Value > 2 then 
+    props["Max Gain 3 (dB)"].IsHidden = false 
+    props["Min Gain 3 (dB)"].IsHidden = false 
+  end
+  if props["Number Of Gains"].Value > 3 then 
+    props["Max Gain 4 (dB)"].IsHidden = false 
+    props["Min Gain 4 (dB)"].IsHidden = false 
+  end
+  if props["Number Of Gains"].Value > 4 then 
+    props["Max Gain 5 (dB)"].IsHidden = false 
+    props["Min Gain 5 (dB)"].IsHidden = false 
+  end
+  if props["Number Of Gains"].Value > 5 then 
+    props["Max Gain 6 (dB)"].IsHidden = false 
+    props["Min Gain 6 (dB)"].IsHidden = false 
+  end
+  if props["Number Of Gains"].Value > 6 then 
+    props["Max Gain 7 (dB)"].IsHidden = false 
+    props["Min Gain 7 (dB)"].IsHidden = false 
+  end
+  if props["Number Of Gains"].Value > 7 then 
+    props["Max Gain 8 (dB)"].IsHidden = false 
+    props["Min Gain 8 (dB)"].IsHidden = false 
+  end
+  if props["Number Of Gains"].Value > 8 then 
+    props["Max Gain 9 (dB)"].IsHidden = false 
+    props["Min Gain 9 (dB)"].IsHidden = false 
+  end
+  if props["Number Of Gains"].Value > 9 then 
+    props["Max Gain 10 (dB)"].IsHidden = false 
+    props["Min Gain 10 (dB)"].IsHidden = false 
+  end
+  return props
+end
+
+-- Optional function to define components used within the plugin
+function GetComponents(props)
+  local components = {}
+  --[[
+    The info below was found by using a text controller to view a meter in QSD.
+    I used the example of Component.GetComponents() to list all the info about a multi-channel meter in QSD
+    This displays the "type" and properties of this meter
+  ]]
+  
+  local multiTypeIndex = 0
+  
+  if props["Number Of Gains"].Value > 1 then
+    multiTypeIndex = 3
+  elseif props["Number Of Gains"].Value == 1 then
+    multiTypeIndex = 1
+  end
+  
+  table.insert(
+    components,
+    {
+      Name = "MultiChannelMeter",
+      Type = "meter2",              -- the name QSD uses for this meter
+      Properties = {
+        ["multi_channel_type"] = multiTypeIndex, -- tells QSD it will be "Mono" or "Multi-Channel"
+        ["multi_channel_count"] = props["Number Of Gains"].Value
+      }
+    }
+  )
+  return components
+end
+
+-- Optional function to define wiring of components used within the plugin
+function GetWiring(props)
+  local wiring = {}
+  
+  -- this wires the audio inputs named "Input x" to the meter named "MultiChannelMeter"
+  
+  local InputCount = props["Number Of Gains"].Value
+  
+  -- if mono
+  if InputCount == 1 then
+    table.insert(
+      wiring,
+      {
+        "Meter 1",
+        "MultiChannelMeter Input"
+      }
+    )
+  else  -- if multichannel 
+    for x = 1, InputCount do
+      table.insert(
+        wiring,
+        {
+          "Meter " .. x,
+          "MultiChannelMeter Input " .. x
+        }
+      )
+    end
+  end
+  return wiring
+end
+
+-- Defines the Controls used within the plugin
+function GetControls(props)
+  local ctrls = {}
+  --------- NOTES
+  
+  local GainMaxTbl = {
+    props["Max Gain 1 (dB)"].Value,
+    props["Max Gain 2 (dB)"].Value,
+    props["Max Gain 3 (dB)"].Value,
+    props["Max Gain 4 (dB)"].Value,
+    props["Max Gain 5 (dB)"].Value,
+    props["Max Gain 6 (dB)"].Value,
+    props["Max Gain 7 (dB)"].Value,
+    props["Max Gain 8 (dB)"].Value,
+    props["Max Gain 9 (dB)"].Value,
+    props["Max Gain 10 (dB)"].Value,
+  }
+  local GainMinTbl = {
+    props["Min Gain 1 (dB)"].Value,
+    props["Min Gain 2 (dB)"].Value,
+    props["Min Gain 3 (dB)"].Value,
+    props["Min Gain 4 (dB)"].Value,
+    props["Min Gain 5 (dB)"].Value,
+    props["Min Gain 6 (dB)"].Value,
+    props["Min Gain 7 (dB)"].Value,
+    props["Min Gain 8 (dB)"].Value,
+    props["Min Gain 9 (dB)"].Value,
+    props["Min Gain 10 (dB)"].Value,
+  }
+  
+  
+  ----- faders (qty 10), separated so that they can have discreet min, max values
+  table.insert(ctrls,{
+    Name = "Fader 1",
+    ControlType = "Knob",
+    Max = GainMaxTbl[1], 
+    Min = GainMinTbl[1],
+    ControlUnit = "dB",
+    Count = 1,
+    DefaultValue = 0,
+    UserPin = true,
+    PinStyle = "Both",
+  })
+  table.insert(ctrls,{
+    Name = "Fader 2",
+    ControlType = "Knob",
+    Max = GainMaxTbl[2], 
+    Min = GainMinTbl[2],
+    ControlUnit = "dB",
+    Count = 1,
+    DefaultValue = 0,
+    UserPin = true,
+    PinStyle = "Both",
+  })
+  table.insert(ctrls,{
+    Name = "Fader 3",
+    ControlType = "Knob",
+    Max = GainMaxTbl[3], 
+    Min = GainMinTbl[3],
+    ControlUnit = "dB",
+    Count = 1,
+    DefaultValue = 0,
+    UserPin = true,
+    PinStyle = "Both",
+  })
+  table.insert(ctrls,{
+    Name = "Fader 4",
+    ControlType = "Knob",
+    Max = GainMaxTbl[4], 
+    Min = GainMinTbl[4],
+    ControlUnit = "dB",
+    Count = 1,
+    DefaultValue = 0,
+    UserPin = true,
+    PinStyle = "Both",
+  })
+  table.insert(ctrls,{
+    Name = "Fader 5",
+    ControlType = "Knob",
+    Max = GainMaxTbl[5], 
+    Min = GainMinTbl[5],
+    ControlUnit = "dB",
+    Count = 1,
+    DefaultValue = 0,
+    UserPin = true,
+    PinStyle = "Both",
+  })
+  table.insert(ctrls,{
+    Name = "Fader 6",
+    ControlType = "Knob",
+    Max = GainMaxTbl[6], 
+    Min = GainMinTbl[6],
+    ControlUnit = "dB",
+    Count = 1,
+    DefaultValue = 0,
+    UserPin = true,
+    PinStyle = "Both",
+  })
+  table.insert(ctrls,{
+    Name = "Fader 7",
+    ControlType = "Knob",
+    Max = GainMaxTbl[7], 
+    Min = GainMinTbl[7],
+    ControlUnit = "dB",
+    Count = 1,
+    DefaultValue = 0,
+    UserPin = true,
+    PinStyle = "Both",
+  })
+  table.insert(ctrls,{
+    Name = "Fader 8",
+    ControlType = "Knob",
+    Max = GainMaxTbl[8], 
+    Min = GainMinTbl[8],
+    ControlUnit = "dB",
+    Count = 1,
+    DefaultValue = 0,
+    UserPin = true,
+    PinStyle = "Both",
+  })
+  table.insert(ctrls,{
+    Name = "Fader 9",
+    ControlType = "Knob",
+    Max = GainMaxTbl[9], 
+    Min = GainMinTbl[9],
+    ControlUnit = "dB",
+    Count = 1,
+    DefaultValue = 0,
+    UserPin = true,
+    PinStyle = "Both",
+  })
+  table.insert(ctrls,{
+    Name = "Fader 10",
+    ControlType = "Knob",
+    Max = GainMaxTbl[10], 
+    Min = GainMinTbl[10],
+    ControlUnit = "dB",
+    Count = 1,
+    DefaultValue = 0,
+    UserPin = true,
+    PinStyle = "Both",
+  })
+  ----- mutes 
+  table.insert(ctrls, {
+    Name = "Mute",
+    ControlType = "Button",
+    ButtonType = "Toggle",
+    Count = 10,
+    UserPin = true,
+    PinStyle = "Both",
+    IconType = "Icon",
+    Icon = "Volume Strike"
+  })
+  ----- gain + 
+  table.insert(ctrls, {
+    Name = "Gain Up",
+    ControlType = "Button",
+    ButtonType = "Momentary",
+    Count = 10,
+    UserPin = true,
+    PinStyle = "Both",
+    IconType = "Icon",
+    Icon = "Plus"
+  })
+  ----- gain -
+  table.insert(ctrls, {
+    Name = "Gain Down",
+    ControlType = "Button",
+    ButtonType = "Momentary",
+    Count = 10,
+    UserPin = true,
+    PinStyle = "Both",
+    IconType = "Icon",
+    Icon = "Minus"
+  })
+  ----- Component Name text box
+  table.insert(ctrls, {
+    Name = "Component Name",
+    ControlType = "Text",
+    Count = 10,
+    UserPin = false,
+  })
+  ----- friendly name text box
+  table.insert(ctrls, {
+    Name = "Friendly Name",
+    ControlType = "Text",
+    Count = 10,
+    UserPin = true,
+    PinStyle = "Both",
+  })
+  ----- Display : Name
+  table.insert(ctrls, {
+    Name = "Display Name",
+    ControlType = "Indicator",
+    IndicatorType = "Text",
+    Count = 10,
+    UserPin = true,
+    PinStyle = "Output",
+  })
+  ----- Display : dB
+  table.insert(ctrls, {
+    Name = "Display dB",
+    ControlType = "Indicator",
+    IndicatorType = "Text",
+    Count = 10,
+    UserPin = true,
+    PinStyle = "Output",
+  })
+  ----- Display : %
+  table.insert(ctrls, {
+    Name = "Display Percent",
+    ControlType = "Indicator",
+    IndicatorType = "Text",
+    Count = 10,
+    UserPin = true,
+    PinStyle = "Output",
+  })
+  ----- Display max gain at fader
+  table.insert(ctrls, {
+    Name = "Display Max",
+    ControlType = "Indicator",
+    IndicatorType = "Text",
+    Count = 10,
+    UserPin = false
+  })
+  ----- Display min gain at fader
+  table.insert(ctrls, {
+    Name = "Display Min",
+    ControlType = "Indicator",
+    IndicatorType = "Text",
+    Count = 10,
+    UserPin = false
+  })
+  ----- Display Override Button
+  table.insert(ctrls, {
+    Name = "Display Override",
+    ControlType = "Button",
+    ButtonType = "Toggle",
+    DefaultValue = true,
+    Count = 1,
+    UserPin = true,
+    PinStyle = "Both",
+  })
+  ----- reset time
+  table.insert(ctrls,{
+    Name = "Reset Time",
+    ControlType = "Knob",
+    Min = 1, 
+    Max = 6,
+    ControlUnit = "Integer",
+    Count = 1,
+    DefaultValue = 3,
+    UserPin = true,
+    PinStyle = "Input",
+  })
+  ----- Meters 
+  table.insert(ctrls, {
+    Name = "Meter",
+    ControlType = "Indicator",
+    IndicatorType = "Meter",
+    Count = 10,
+    UserPin = false,
+  })
+  ----- Meter Resposne Time knob
+  table.insert(ctrls, {
+    Name = "Meter Response Time",
+    ControlType = "Knob",
+    ControlUnit = "Integer",
+    Min = 10, 
+    Max = 1000,
+    --DefaultValue = 300,
+    Count = 1,
+    UserPin = true,
+    PinStyle = "Input",
+  })
+  ----- Meter Resposne Time display
+  table.insert(ctrls, {
+    Name = "Meter Response Time Display",
+    ControlType = "Indicator",
+    IndicatorType = "Text",
+    Count = 1,
+    UserPin = false
+  })
+  ----- version
+  table.insert(ctrls, {
+    Name = "Ver",
+    ControlType = "Indicator",
+    IndicatorType = "Text",
+    Count = 1,
+    UserPin = false
+  })
+  return ctrls
+end
+
+--Layout of controls and graphics for the plugin UI to display
+function GetControlLayout(props)
+  local layout = {}
+  local graphics = {}
+  
+  --------- Variables
+  local TotalGainCount = props["Number Of Gains"].Value
+  local ButtonPrimaryOffColor = {235,245,252}
+  local ButtonPrimaryOnColor = {5, 97, 165}
+  local ButtonStrokeColor = {5, 97, 165}
+  local TextPrimaryColor = {51,51,51}
+  local TextSecondaryColor = {102,102,102}
+  local GroupBoxFillColor =  {235,245,252}
+  local GroupBoxStrokeColor = {5, 97, 165}
+  local TextFont = "Montserrat"
+  local TextFontStyle = "Light"
+  local FaderSize = {70,190}
+  local FaderYCoord = 150
+  local FaderXCoord = {174, 312, 450, 588, 726, 864, 1002, 1140, 1278, 1416}
+  local GroupboxSize = {138,420}
+  local TextBoxXCoord = {147, 285, 423, 561, 699, 837, 975, 1113, 1251, 1389}
+  
+  
+  --------- page graphics
+  -- left hand groupbox
+  table.insert(graphics,{
+    Type = "GroupBox",
+    Fill = GroupBoxFillColor,
+    StrokeColor = GroupBoxStrokeColor,
+    StrokeWidth = 1,
+    CornerRadius = 5,
+    ZOrder = -1,
+    Position = {2,2},
+    Size = GroupboxSize
+  })
+  -- Component Name label
+  table.insert(graphics,{
+    Type = "Label",
+    Text = "Component Name:",
+    Position = {13,16},
+    Size = {120,25},
+    FontSize = 12,
+    Margin = 1,
+    HTextAlign = "Right",
+    Font = TextFont,
+    FontStyle = TextFontStyle,
+    Color = TextPrimaryColor,
+  })
+  -- Friend Name label
+  table.insert(graphics,{
+    Type = "Label",
+    Text = "Friendly Name:",
+    Position = {13,41},
+    Size = {120,25},
+    FontSize = 12,
+    Margin = 1,
+    HTextAlign = "Right",
+    Font = TextFont,
+    FontStyle = TextFontStyle,
+    Color = TextPrimaryColor,
+  })
+  -- Display - Name label
+  table.insert(graphics,{
+    Type = "Label",
+    Text = "Display Name:",
+    Position = {13,76},
+    Size = {120,25},
+    FontSize = 12,
+    Margin = 1,
+    HTextAlign = "Right",
+    Font = TextFont,
+    FontStyle = TextFontStyle,
+    Color = TextPrimaryColor,
+  })
+  -- Display - dB label
+  table.insert(graphics,{
+    Type = "Label",
+    Text = "Display dB:",
+    Position = {13,101},
+    Size = {120,25},
+    FontSize = 12,
+    Margin = 1,
+    HTextAlign = "Right",
+    Font = TextFont,
+    FontStyle = TextFontStyle,
+    Color = TextPrimaryColor,
+  })
+  -- Display - % label
+  table.insert(graphics,{
+    Type = "Label",
+    Text = "Display %:",
+    Position = {13,126},
+    Size = {120,25},
+    FontSize = 12,
+    Margin = 1,
+    HTextAlign = "Right",
+    Font = TextFont,
+    FontStyle = TextFontStyle,
+    Color = TextPrimaryColor,
+  })
+  -- Text Override header
+  table.insert(graphics,{
+    Type = "Header",
+    Text = "Text Override",
+    Position = {15,260},
+    Size = {112,25},
+    FontSize = 11,
+    HTextAlign = "Left",
+    Font = TextFont,
+    FontStyle = TextFontStyle,
+    Color = TextSecondaryColor,
+  }) 
+  -- Display Override Toggle
+  layout["Display Override"] = { 
+    PrettyName = "Text Override~Enable",
+    ButtonStyle = "Toggle",
+    ButtonVisualStyle = "Gloss",
+    WordWrap = false,
+    Legend = "Off",
+    Position = {17, 281}, 
+    Size = {53,25},
+    Color = {157,208,91},
+    UnlinkOffColor = true ,
+    OffColor = {204,204,204},
+    StrokeColor = ButtonStrokeColor,
+    Margin = 2,
+    Radius = 6,
+    IsReadOnly = false,
+    FontSize = 12,
+    Font = TextFont,
+    FontStyle = TextFontStyle,
+    TextColor = {0,0,0},
+  }
+  -- Reset Time Integer
+  layout["Reset Time"] = {           
+    Style = "Text",
+    TextBoxStyle = "Meter",
+    PrettyName = "Text Override~Reset Time",
+    Position = {72,281},
+    Size = {53,25},
+    Color = {73,189,239},
+    Margin = 2,
+    IsReadOnly = false,
+  }
+  -- Meter Times Header
+  table.insert(graphics,{
+    Type = "Header",
+    Text = "Meter Response",
+    Position = {15,308},
+    Size = {112,25},
+    FontSize = 11,
+    HTextAlign = "Left",
+    Font = TextFont,
+    FontStyle = TextFontStyle,
+    Color = TextSecondaryColor,
+  }) 
+  -- Meter Response Time Knob
+  layout["Meter Response Time"] = {           
+    Style = "Knob",
+    ShowTextbox = false,
+    PrettyName = "Meter~Response Time",
+    Position = {53,334},
+    Size = {36,36},
+    Color = {254,248,134},
+    IsReadOnly = false,
+  }
+  -- Meter Response Time Display
+  layout["Meter Response Time Display"] = { 
+    PrettyName = "Meter~Response Time Display",
+    Style = "Text",
+    TextBoxStyle = "Normal",
+    Color = {255,255,255},
+    StrokeWidth = 1,
+    CornerRadius = 0,
+    --Font = TextFont,
+    --FontStyle = TextFontStyle,
+    HTextAlign = "Center",
+    WordWrap = false,
+    Position = {53,351},
+    Size = {36,16},
+    FontSize = 9,
+    IsReadOnly = true,
+    Margin = 1,
+    TextColor = TextPrimaryColor,
+  }
+  -- Logo
+  Logo = "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTMyIiBoZWlnaHQ9IjI1IiB2aWV3Qm94PSIwIDAgMTMyIDI1Ij4KICA8bWV0YWRhdGE+PD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDIgNzkuMTYwOTI0LCAyMDE3LzA3LzEzLTAxOjA2OjM5ICAgICAgICAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIi8+CiAgIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAKPD94cGFja2V0IGVuZD0idyI/PjwvbWV0YWRhdGE+CjxpbWFnZSB3aWR0aD0iMTMyIiBoZWlnaHQ9IjI1IiB4bGluazpocmVmPSJkYXRhOmltZy9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFJUUFBQUFaQ0FZQUFBRHd2SVk2QUFBQUJHZEJUVUVBQUxHUEMveGhCUUFBQUNCalNGSk5BQUI2SmdBQWdJUUFBUG9BQUFDQTZBQUFkVEFBQU9wZ0FBQTZtQUFBRjNDY3VsRThBQUFBQm1KTFIwUUFBQUFBQUFENVE3dC9BQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBQUIzUkpUVVVINVFZRURUTXl2aHZsaFFBQUNORkpSRUZVYU43dG1udHdGVmNad0g5M2szdHYwdkFLSkVHclkwTUpqMFlvZ3luVzFnZWdkV29WN2NOVzNtQ0xhQzJsT2kwV1JUclFLdEJBYWN2WWFsR0tVbEVyaFhIR2QxdWQydFlPZEdoUkNxVTZqSkJIRThnTENBUUlDZmV1ZjN5NzdObk4zcnZuM053WitjUGZ6SjE3enU0NTM1NDkrKzEzdnU4N0crdW9yRUpoRUhBdjhEbGdGR0FCNTVYek5oQnoyaFU0eDVxQm5jQkxRRDNRQkRTa2JQdFVlU0xSZXk2ZHRtc2FEdk4yYncvLzUrS25VQ2xQQTM0VE9KYU5QY0JHNFBlSVVsd2diZHVVRjhicFRhZjVTR05kUHBSaElIQWJNQVdvQUFZRFBjQng0Ri9BRG1DM29jd2h3SHdnQ2ZRQ1B3ZmFEZnBQQjBZRDNjQlc0RWpnL0NSZ0ZuQVFHT3JNN2R1R1k3U2NNWllDN3dYMkExdVU4NlhBZmNCSjV6NTJBMzgya0Q4VW1JZTg1SmNCbTJLT2haZ0YvRUpUeU1QT3J6UHNaTnEyR1ZoUVFES1JaRUZUQTV0UGRZSllFeHRJRzA1SUtiQUp1RVdqYlN1d0NOaXVLYnNhL3dONkZwaHBNTFkzZ0Jxbi9FbkVRcXBVQUFlQVlVNzlBUEJCdy90ZjROeS95MXhFK1ZSMkJPWm5BdkNXcHZ5bmdUdVU4VTIwZ0E4QW16VTYvdzU0RC9BZHNpcERJY2w0Z204ZGZkZFZCb0JpUklOTitDeHdOSEN6S2NRaXZBYnNRcFRBcFFKNERubXdPcHdQMUdjNEU2NUxTaW1mQ3puZkNueFJxVmNENnd6a1h3bzhwdFFmb3E4eTRGeER0WTdQYU1wZmhLY01KNEJQQVQwV1luS3lQYXcwY0N2d0JhQWw0K3pZTmtNTDR5VGpjZVkzTmZESWllUHE2VUZBaWNGazNBcjhBVWc0OVc3Z1FVUjVyd0ErQmx3RERBY21BMzlWK2s1SGxDVVhIa1dza2lsMmh1TXZBMnVWK2hKa0tkRmhJN0pVQXJ3SnJNalNkaWFlZ2s0QWZod2grMFBBRTBwOU52THlZU0hyY2licWtZZXdJNXYwbEcxVEhvOWp4V0xNYldyZ21hNlR3U1lUMEovb0NjaWI3dklxOHVCWEV2QlZIRjRCcmdPK3FoeTdHakdIcHBRQlA4eWhYemFXQXY5VTZoczErc3hHZkRxWDJ5UGEvd2RZck5RWEFwL1AwTFlJdnhWZENmelJyVmpBaUF3ZDNUV3ZLZHRJVXJaTldUd09WZ0czSFdsa2ExOWxBS2hDSEJjZFZMTzZDL2dFNGpSRjhSUGd5MHI5RHVBbXpXdDJBcWVjOGd3OFU1b3ZGaXJsaVVCdGxyWVYrTi9lUmNBK2pXdjhDTDhmdUJseEdvUDhHb2tnUVN6cmcrcEpDLzlhNkhJUStEQndPdHNJVXJaTmVTSkJMQmJqK3NiRGJEL2RGZFpzRUhCVmxDeUhLY0NubGZyWE5QcW9iQUcyS2ZWdmF2WjdDVmlqMURjZ1ZpbGZ2QkdRZno5aXRzTjRHb21BUVB3MkU0dTFDQy9hS2FPdmIzZy9zdlNEUkZTemd3SXMrcTUvNTVBOGhJWXlKT2xKcDVuYVdNY0xaODlrYWpvSitDalFwbkZEczVUeVZ2UzlaWldIbGZKa1lKeEduK0hJQTN2WnFROUFsQ0tmTEVOOEFaZXdCejBIYjZrNGd6eGdFenJ4VzhrYjhhelRKUHlXYVM0aFBxRVZJdlFXeEVKa0pHWGJsQ2VMNkVxbEdOZHdpTDkxbjgzVy9HWmdKSkkzaU9JNnBieE5vMzBZLzhCN3NDRGVjeFN1OC9aMTVkaDAvSDVKUGxEbFg0MnMzeTdEOFM4Vjg0SEdISzd4QXFKOExyWEFHUHpPN1JveTVDdUNDckVGeGNFSUkrMG9RK2Y1WHE1OTl6QUhlM3VqQmpnRGlSS2lxTWJ6WjJ4Z2J3NlQ0YkpIS1Y5ajBPOGQ0UHRLZlFPU3NNa1h1d1B5bHlJSko0RDFTTUlOWkozWHphZUVzUVlKelVHYytWY1JLdzN3SW42RjhhRXF4R2xuZ0tHa2tleFNXZkVsMUozcnBycitFUHQ2SWwvNnp5Q0ptZWFvaGtqV3o2V05MQ0d1QnZ1VjhrakR2ZzhncVhnUWovd3h3LzZtOHIvaDNMdTduamNnQ2FuK01odHdUWGM1RUFmcWtKQStJeGFlVXF3aXcwTklBMFd4R0lNVFNaNDkzc0g0aHNNMHA4Nmp3VDNPdjg1eU1VUXBkeEtlN05HbFRpa1B6cUgvblVyNVp2eW1QaCtvenZKWGdPZVYranowSFBBbzZvSGxnV1BiaVlqWUxMd0oyeFRXSUEwa1l6RUdKSXQ0NGxnN00xdWE2YksxTXRBemdCc01ia0RkUStudjVvYzZRQ3VIL20vaE4rMlBJRm5hZkxFUEw5d2JCbFE2NVEzNC9aLytFclFHQzRpSW50ekoraE1oVVVBYUtJN0ZHSmdzWW4xYkM0dmJ0YTE0Q1pMMU0wSDFUQy9wNTBSVUtPV3VIR1U4Z0t5OTduaWU2dWVZZ3F4RWttb3VlOUVQazNYNEZaNy81S1lXU29sSTdic0swU2NUbWJadGlpeUxrbVF4VDdhM3NLU2pGUU9leEhPV2RGSDlqSEw4UzRncFZ5cGxvNEVIV0lobmJXNGsvMHVINnNDL2tyT1V2c3hITERUSTNzOGN2QmRqQ3VJZWhHSWhPMzYreUNJTmxCUVVNQ0NlNEtIV1p1NXVONXJUNWM2QVRObUZ0LzA4QUwrVGFZcTZxOWlmaWY0M2ZvOThIZUhadjF5eCt5K2lEelhBejVUNktzUXFxQ256WldUWXNyQ1FVT2pDWHI2N1RCVEhFNnh1TzhxS1l5YWZDREFQK0Y3SWNaMjA5Vm5nZGFYK3BSd241RkprcDlSbFo0NXlYR3J4UXJnU3ZJU1NUaWdkUlN4RE9WZml3QytWK25ONE82Ukw4TS92Wm1RWDJvZUZ0MDVlVUlhU1pKTGE5aGErYTZZTXQrUC9lQ1BUaldmanAwcjVUbkpMSDkrRnQwdTZILzlPYUs2b1llQjB4QVRYNTBGdXZua0t6N0kyNHM5YWduOVBaUVJobnoxMFZGYmQwRkZaUmV0bEl6bHorV2pzSzY1azlkQXkwNEVzUTh4ZnB0L3JCckoySy8xMHYyMXdxUWxjOTk0c2JVY3I3WFEyajVZcjdSdVEwTmF0bXlTL1ZKWXFNbjZRb3d5WHV3TDNQalZEdThXQmR2N2x2YU95YW14YlpSWGRsNC9HSGxYTnQ0Y1lMWkZ4SklhMkkzNnJEV1JPQy9SOVhMTmZGZENCdmhLYUtnU0l0UW03di8rMVFsUUh4ck0yb3YwMnBXMEtTVzBMYlpVakIzYU5HSVU5ZGp6TFM0ZGh3RHdreVJHbERMMWszbUxQeEgwQkdYdUJqMmRvVzRLRWNDbWwvVEhnL1JIWHlFVWh4bkh4S1lRYkdMaHlkSmJJd1VnUzB1M2piYnAxalJoVmFJOGR6N3BoNWJvRG1JeHNJRVVwZ3Z0YnJDczR3SW9RV1llUUJOcDZKSW56UFBJcG5OcW1CYkVXVWVTaUVPQi9pQmVEUW14UlpKd0MzcWZaNzZiQVBVZ3dZSThaejlwb1piZ0t5UzJjUmw4UmJDUlAzeDlxOEsvVlVUK1RMV3ZWekI0d0hOZGZBdGVkYXRqZlJmVzljdmxTYTFWZ0hITU0rOWNHK3Q5VHVMcnRpQnROV0loUFVJcWtVOHVRanppdUI2N0YyeUx1UkVMRVlFbzQ1aHc3aWZjTm9PbEVCM2tUU2V0T1F6em1NVWdXTW9rRVJTY1JiL28xNUExck1wQjlBdmd0RXFiKzNYQmNkeVBLWnlON2ZqcWJkMkc4ZzJldTl4ajJUU0FKdUozSWN2a2k0Ui9oWm1NTjhvbmtJR1NKbmZoZmp4NnZrakNPbkdBQUFBQUFTVVZPUks1Q1lJST0iLz4KPC9zdmc+Cg=="
+  table.insert(graphics,{
+    Type = "Svg",
+    Image = Logo,
+    Position = {11,381},
+    Size = {120,23},
+    ZOrder = 1000
+  })
+  -- Display - version
+  table.insert(graphics,{
+    Type = "Label",
+    Text = string.format("v%s", PluginInfo.Version),
+    Position = {71,404},
+    Size = {60,18},
+    FontSize = 9,
+    Margin = 1,
+    HTextAlign = "Right",
+    --Font = TextFont,
+    --FontStyle = TextFontStyle,
+    Color = TextPrimaryColor,
+  })
+  
+  -- Controls
+  TotalGainCount = math.floor(tonumber(TotalGainCount))
+  for i = 1, TotalGainCount do
+    -- groupboxes
+    table.insert(graphics,{
+      Type = "GroupBox",
+      Fill = GroupBoxFillColor,
+      StrokeColor = GroupBoxStrokeColor,
+      StrokeWidth = 1,
+      CornerRadius = 5,
+      Position = {2+i*GroupboxSize[1],2},
+      Size = GroupboxSize
+    })
+    -- Named Component text box
+    layout["Component Name "..i] = { 
+      PrettyName = string.format("Gain %i~Component Name",i),
+      Style = "Text",
+      Position = {TextBoxXCoord[i],16},
+      Size = {125,25},
+      Color = {255,255,255},
+      FontSize = 12,
+      Font = TextFont,
+      FontStyle = TextFontStyle,
+      TextColor = TextPrimaryColor,
+      Margin = 1,
+      HTextAlign = "Center",
+      IsReadOnly = false,
+    }
+    -- Friendly Name text box
+    layout["Friendly Name "..i] = { 
+      PrettyName = string.format("Gain %i~Friendly Name",i),
+      Style = "Text",
+      Position = {TextBoxXCoord[i],41},
+      Size = {125,25},
+      Color = {255,255,255},
+      FontSize = 12,
+      Font = TextFont,
+      FontStyle = TextFontStyle,
+      TextColor = TextPrimaryColor,
+      Margin = 1,
+      HTextAlign = "Center",
+      IsReadOnly = false,
+    }
+    -- text output name only
+    layout["Display Name "..i] = { 
+      PrettyName = string.format("Gain %i~Display Name",i),
+      Style = "Text",
+      TextBoxStyle = "NoBackground",
+      Font = TextFont,
+      FontStyle = TextFontStyle,
+      HTextAlign = "Center",
+      WordWrap = false,
+      Position = {TextBoxXCoord[i],76},
+      Size = {125,25},
+      FontSize = 12,
+      IsReadOnly = true,
+      Margin = 1,
+      TextColor = TextPrimaryColor,
+    }
+    -- text output dB
+    layout["Display dB "..i] = { 
+      PrettyName = string.format("Gain %i~Display dB",i),
+      Style = "Text",
+      TextBoxStyle = "NoBackground",
+      Font = TextFont,
+      FontStyle = TextFontStyle,
+      HTextAlign = "Center",
+      WordWrap = false,
+      Position = {TextBoxXCoord[i],101},
+      Size = {125,25},
+      FontSize = 12,
+      IsReadOnly = true,
+      Margin = 1,
+      TextColor = TextPrimaryColor,
+    }
+    -- text output %
+    layout["Display Percent "..i] = { 
+      PrettyName = string.format("Gain %i~Display Percent",i),
+      Style = "Text",
+      TextBoxStyle = "NoBackground",
+      Font = TextFont,
+      FontStyle = TextFontStyle,
+      HTextAlign = "Center",
+      WordWrap = false,
+      Position = {TextBoxXCoord[i],126},
+      Size = {125,25},
+      FontSize = 12,
+      IsReadOnly = true,
+      Margin = 1,
+      TextColor = TextPrimaryColor,
+    }
+    -- gain max display at fader
+    layout["Display Max "..i] = { 
+      PrettyName = string.format("Gain %i~Max dB",i),
+      Style = "Text",
+      TextBoxStyle = "NoBackground",
+      Font = TextFont,
+      FontStyle = TextFontStyle,
+      HTextAlign = "Right",
+      WordWrap = false,
+      Position = {2+i*GroupboxSize[1],FaderYCoord},
+      Size = {33,18},
+      FontSize = 10,
+      IsReadOnly = true,
+      Margin = 1,
+      TextColor = TextSecondaryColor,
+    }
+    -- gain max display at fader
+    layout["Display Min "..i] = { 
+      PrettyName = string.format("Gain %i~Min dB",i),
+      Style = "Text",
+      TextBoxStyle = "NoBackground",
+      Font = TextFont,
+      FontStyle = TextFontStyle,
+      HTextAlign = "Right",
+      WordWrap = false,
+      Position = {2+i*GroupboxSize[1],FaderYCoord + FaderSize[2] - 18},
+      Size = {33,18},
+      FontSize = 10,
+      IsReadOnly = true,
+      Margin = 1,
+      TextColor = TextSecondaryColor,
+    }
+    -- Meters
+    layout["Meter "..i] = {           
+      Style = "Meter",
+      PrettyName = string.format("Gain %i~Meter",i),
+      MeterStyle = "Standard",
+      ShowTextbox = false,
+      Position = {FaderXCoord[i]+FaderSize[1],FaderYCoord},
+      Size = {12,FaderSize[2]},
+      BackgroundColor  = GroupBoxFillColor,
+      StrokeColor = ButtonStrokeColor,
+      Margin = 1,
+      Radius = 6,
+      IsReadOnly = true,
+    }
+    -- Gain Up Buttons
+    layout["Gain Up "..i] = {           
+      Style = "Button",
+      PrettyName = string.format("Gain %i~+",i),
+      ButtonStyle = "Momentary",
+      ButtonVisualStyle = "Flat",
+      WordWrap = true,
+      Position = {FaderXCoord[i],344},
+      Size = {35,25},
+      Color = {152,209,234},
+      UnlinkOffColor = true ,
+      OffColor = ButtonPrimaryOffColor,
+      StrokeColor = ButtonStrokeColor,
+      StrokeWidth = 0,
+      Margin = 1,
+      Radius = 6,
+      Padding = 1,
+      IsReadOnly = false,
+      IconColor = ButtonPrimaryOnColor,
+    }
+    -- Gain Down Buttons
+    layout["Gain Down "..i] = {           
+      Style = "Button",
+      PrettyName = string.format("Gain %i~-",i),
+      ButtonStyle = "Momentary",
+      ButtonVisualStyle = "Flat",
+      WordWrap = true,
+      Position = {FaderXCoord[i]+35,344},
+      Size = {35,25},
+      Color = {152,209,234},
+      UnlinkOffColor = true ,
+      OffColor = ButtonPrimaryOffColor,
+      StrokeColor = ButtonStrokeColor,
+      StrokeWidth = 0,
+      Margin = 1,
+      Radius = 6,
+      Padding = 1,
+      IsReadOnly = false,
+      IconColor = ButtonPrimaryOnColor,
+    }
+    -- Mute Buttons
+    layout["Mute "..i] = {           
+      Style = "Button",
+      PrettyName = string.format("Gain %i~Mute",i),
+      ButtonStyle = "Toggle",
+      ButtonVisualStyle = "Flat",
+      WordWrap = true,
+      Position = {FaderXCoord[i],369},
+      Size = {70,35},
+      Color = {231,87,59},
+      UnlinkOffColor = true ,
+      OffColor = ButtonPrimaryOffColor,
+      StrokeColor = ButtonStrokeColor,
+      Margin = 1,
+      Radius = 6,
+      Padding = 5,
+      IsReadOnly = false,
+      IconColor = ButtonPrimaryOnColor,
+    }
+  
+  end
+  
+  if TotalGainCount > 0 then
+    -- Fader
+    layout["Fader 1"] = {           
+      Style = "Fader",
+      PrettyName = "Gain 1~Fader",
+      Position = {FaderXCoord[1],FaderYCoord},
+      Size = FaderSize,
+      Color = ButtonPrimaryOnColor,
+      Margin = 1,
+      IsReadOnly = false,
+    }
+  end
+  if TotalGainCount > 1 then
+    -- Fader
+    layout["Fader 2"] = {           
+      Style = "Fader",
+      PrettyName = "Gain 2~Fader",
+      Position = {FaderXCoord[2],FaderYCoord},
+      Size = FaderSize,
+      Color = ButtonPrimaryOnColor,
+      Margin = 1,
+      IsReadOnly = false,
+    }
+  end
+  if TotalGainCount > 2 then
+    -- Fader
+    layout["Fader 3"] = {           
+      Style = "Fader",
+      PrettyName = "Gain 3~Fader",
+      Position = {FaderXCoord[3],FaderYCoord},
+      Size = FaderSize,
+      Color = ButtonPrimaryOnColor,
+      Margin = 1,
+      IsReadOnly = false,
+    }
+  end
+  if TotalGainCount > 3 then
+    -- Fader
+    layout["Fader 4"] = {           
+      Style = "Fader",
+      PrettyName = "Gain 4~Fader",
+      Position = {FaderXCoord[4],FaderYCoord},
+      Size = FaderSize,
+      Color = ButtonPrimaryOnColor,
+      Margin = 1,
+      IsReadOnly = false,
+    }
+  end
+  if TotalGainCount > 4 then
+    -- Fader
+    layout["Fader 5"] = {           
+      Style = "Fader",
+      PrettyName = "Gain 5~Fader",
+      Position = {FaderXCoord[5],FaderYCoord},
+      Size = FaderSize,
+      Color = ButtonPrimaryOnColor,
+      Margin = 1,
+      IsReadOnly = false,
+    }
+  end
+  if TotalGainCount > 5 then
+    -- Fader
+    layout["Fader 6"] = {           
+      Style = "Fader",
+      PrettyName = "Gain 6~Fader",
+      Position = {FaderXCoord[6],FaderYCoord},
+      Size = FaderSize,
+      Color = ButtonPrimaryOnColor,
+      Margin = 1,
+      IsReadOnly = false,
+    }
+  end
+  if TotalGainCount > 6 then
+    -- Fader
+    layout["Fader 7"] = {           
+      Style = "Fader",
+      PrettyName = "Gain 7~Fader",
+      Position = {FaderXCoord[7],FaderYCoord},
+      Size = FaderSize,
+      Color = ButtonPrimaryOnColor,
+      Margin = 1,
+      IsReadOnly = false,
+    }
+  end
+  if TotalGainCount > 7 then
+    -- Fader
+    layout["Fader 8"] = {           
+      Style = "Fader",
+      PrettyName = "Gain 8~Fader",
+      Position = {FaderXCoord[8],FaderYCoord},
+      Size = FaderSize,
+      Color = ButtonPrimaryOnColor,
+      Margin = 1,
+      IsReadOnly = false,
+    }
+  end
+  if TotalGainCount > 8 then
+    -- Fader
+    layout["Fader 9"] = {           
+      Style = "Fader",
+      PrettyName = "Gain 9~Fader",
+      Position = {FaderXCoord[9],FaderYCoord},
+      Size = FaderSize,
+      Color = ButtonPrimaryOnColor,
+      Margin = 1,
+      IsReadOnly = false,
+    }
+  end
+  if TotalGainCount > 9 then
+    -- Fader
+    layout["Fader 10"] = {           
+      Style = "Fader",
+      PrettyName = "Gain 10~Fader",
+      Position = {FaderXCoord[10],FaderYCoord},
+      Size = FaderSize,
+      Color = ButtonPrimaryOnColor,
+      Margin = 1,
+      IsReadOnly = false,
+    }
+  end
+  
+  return layout, graphics
+end
+
+--Start event based logic
+if Controls then
+  -- jhopkins
+  -- Onyx AudioVisual
+  ---------------------------------------------------------------
+  ------------------------  Constants  --------------------------
+  ---------------------------------------------------------------
+  e = System.IsEmulating
+  iMaxGains = Properties["Number Of Gains"].Value
+  ColorRed = "OrangeRed"
+  ColorGreen = "LightGreen"
+  ColorYellow = "Yellow"
+  ColorWhite = "White"
+  EmptyComponentMessage = "Enter Valid Gain"
+  
+  -- timers for Display Text
+  DisplayTextTimerTbl = {}
+  for i = 1, iMaxGains do 
+      DisplayTextTimerTbl[i] = Timer.New()
+  end 
+  
+  
+  -- timers for Gain Up/Down buttons
+  ButtonUpDownTimerTbl = {}
+  for i = 1, iMaxGains do 
+      ButtonUpDownTimerTbl[i] = Timer.New()
+  end 
+  ButtonUpDownTimeout = 0.1
+  ButtonUpDownHoldTime = 0.5
+  
+  
+  ---------------------------------------------------------------
+  --------------------  Named Components ------------------------
+  ---------------------------------------------------------------
+  GainTbl = {}
+  MuteTbl = {}
+  
+  ---------------------------------------------------------------
+  ------------------------  Functions ---------------------------
+  ---------------------------------------------------------------
+  
+  -- a function that cycles through the named component inputs and checks that they exist
+  function EvaluateNamedComponents(idx)
+      
+      if(DebugFunction)then print("EvaluateNamedComponents entered with "..idx)end
+  
+      local Allow = false
+  
+      -- check the component exists
+      if #Component.GetControls(Controls['Component Name'][idx].String) ~= 0 then
+        if(DebugFunction)then print("Component Does Exist")end
+        -- check that this Named Component is a Gain by counting "bypass", "gain", "invert", and "mute"
+        b_ctrls = Component.GetControls(Controls['Component Name'][idx].String)
+        local VerifyCount = 0
+        for k,v in pairs (b_ctrls) do 
+          if v.Name == "bypass" then VerifyCount = VerifyCount + 1 end
+          if v.Name == "gain" then VerifyCount = VerifyCount + 1 end
+          if v.Name == "invert" then VerifyCount = VerifyCount + 1 end
+          if v.Name == "mute" then VerifyCount = VerifyCount + 1 end
+        end
+        if VerifyCount == 4 then -- has all of the names of a gain
+          if(DebugFunction)then print("Component Is A Gain")end
+          Allow = true
+        else -- does not have all 4 names of a gain
+          if(DebugFunction)then print("Component Is NOT A Gain")end
+          Allow = false
+        end 
+      else -- component does not exist
+        if(DebugFunction)then print("Component Does NOT Exist")end
+        Allow = false
+      end  
+  
+       
+      if Allow == true then
+        -- some GUI stuff
+        Controls['Component Name'][idx].Color = ColorGreen
+        Controls['Fader '..tostring(idx)].IsDisabled = false
+        Controls['Mute'][idx].IsDisabled = false
+        Controls['Gain Up'][idx].IsDisabled = false
+        Controls['Gain Down'][idx].IsDisabled = false
+        Controls['Meter'][idx].IsDisabled = false
+        -- show a plus sign for max gain if its greater than 0
+        local max = tonumber(tostring(Properties[string.format("Max Gain %i (dB)", idx)].Value))
+        Controls['Display Max'][idx].String = max > 0 and string.format("+%i", max) or (tostring(max))
+        -- show min gain
+        Controls['Display Min'][idx].String = tostring(Properties[string.format("Min Gain %i (dB)", idx)].Value)
+  
+        -- if existing, set EventHandler to nil
+        if GainTbl[idx] then GainTbl[idx].EventHandler = nil end
+        if MuteTbl[idx] then MuteTbl[idx].EventHandler = nil end
+        -- establish new Named Components for gain and mute
+        local g = Component.New(Controls['Component Name'][idx].String)['gain']
+        local m = Component.New(Controls['Component Name'][idx].String)['mute']
+        -- store these Named Components into a table
+        GainTbl[idx] = g
+        MuteTbl[idx] = m
+        -- match the plugin faders and mute states
+        Controls['Fader '..tostring(idx)].Value = GainTbl[idx].Value
+        Controls['Mute'][idx].Boolean = MuteTbl[idx].Boolean   
+        -- check that the Friendly Name is populated, if not then assign gain name to Friendly Name
+        if Controls['Friendly Name'][idx].String == "" then 
+          Controls['Friendly Name'][idx].String = Controls['Component Name'][idx].String
+        end 
+        SetLegends(idx)
+        -- set new EventHandlers for the named components
+        -- I could not find a way to make this happen in a table, since they need to be discreet functions. 
+        -- revisit in future
+        local GainEVTTbl = {GainEVT1, GainEVT2, GainEVT3, GainEVT4, GainEVT5, GainEVT6, GainEVT7, GainEVT8, GainEVT9, GainEVT10}
+        local MuteEVTTbl = {MuteEVT1, MuteEVT2, MuteEVT3, MuteEVT4, MuteEVT5, MuteEVT6, MuteEVT7, MuteEVT8, MuteEVT9, MuteEVT10}
+        GainTbl[idx].EventHandler = GainEVTTbl[idx]
+        MuteTbl[idx].EventHandler = MuteEVTTbl[idx]
+      else 
+        -- some GUI stuff
+        Controls['Component Name'][idx].Color = ColorRed
+        Controls['Component Name'][idx].String = EmptyComponentMessage
+        Controls['Fader '..tostring(idx)].IsDisabled = true
+        Controls['Mute'][idx].IsDisabled = true
+        Controls['Gain Up'][idx].IsDisabled = true
+        Controls['Gain Down'][idx].IsDisabled = true
+        Controls['Display Max'][idx].String = ""
+        Controls['Display Min'][idx].String = ""
+        Controls['Fader '..tostring(idx)].Position = 0
+        Controls['Mute'][idx].Boolean = false
+        Controls['Display Name'][idx].String = ""
+        Controls['Display Percent'][idx].String = ""
+        Controls['Display dB'][idx].String = ""
+        Controls['Meter'][idx].Value = -100
+        Controls['Meter'][idx].IsDisabled = true
+        -- kill the EventHandlers if they existed
+        if GainTbl[idx] then GainTbl[idx].EventHandler = nil end
+        if MuteTbl[idx] then MuteTbl[idx].EventHandler = nil end
+        -- set the table entries to "" 
+        GainTbl[idx] = nil
+        MuteTbl[idx] = nil
+      end
+  
+      if(DebugFunction) then
+        print("GainTbl has "..#GainTbl)
+        print("MuteTbl has "..#GainTbl)
+      end
+  end
+  
+  
+  ---- gain components change
+  function GainEVT1(ctl)
+    Controls['Fader 1'].Value = ctl.Value
+    SetGainValues(1)
+  end
+  function GainEVT2(ctl)
+    Controls['Fader 2'].Value = ctl.Value
+    SetGainValues(2)
+  end
+  function GainEVT3(ctl)
+    Controls['Fader 3'].Value = ctl.Value
+    SetGainValues(3)
+  end
+  function GainEVT4(ctl)
+    Controls['Fader 4'].Value = ctl.Value
+    SetGainValues(4)
+  end
+  function GainEVT5(ctl)
+    Controls['Fader 5'].Value = ctl.Value
+    SetGainValues(5)
+  end
+  function GainEVT6(ctl)
+    Controls['Fader 6'].Value = ctl.Value
+    SetGainValues(6)
+  end
+  function GainEVT7(ctl)
+    Controls['Fader 7'].Value = ctl.Value
+    SetGainValues(7)
+  end
+  function GainEVT8(ctl)
+    Controls['Fader 8'].Value = ctl.Value
+    SetGainValues(8)
+  end
+  function GainEVT9(ctl)
+    Controls['Fader 9'].Value = ctl.Value
+    SetGainValues(9)
+  end
+  function GainEVT10(ctl)
+    Controls['Fader 10'].Value = ctl.Value
+    SetGainValues(10)
+  end
+  
+  ---- mute components change
+  function MuteEVT1(ctl)
+    Controls['Mute'][1].Boolean = ctl.Boolean
+  end
+  function MuteEVT2(ctl)
+    Controls['Mute'][2].Boolean = ctl.Boolean
+  end
+  function MuteEVT3(ctl)
+    Controls['Mute'][3].Boolean = ctl.Boolean
+  end
+  function MuteEVT4(ctl)
+    Controls['Mute'][4].Boolean = ctl.Boolean
+  end
+  function MuteEVT5(ctl)
+    Controls['Mute'][5].Boolean = ctl.Boolean
+  end
+  function MuteEVT6(ctl)
+    Controls['Mute'][6].Boolean = ctl.Boolean
+  end
+  function MuteEVT7(ctl)
+    Controls['Mute'][7].Boolean = ctl.Boolean
+  end
+  function MuteEVT8(ctl)
+    Controls['Mute'][8].Boolean = ctl.Boolean
+  end
+  function MuteEVT9(ctl)
+    Controls['Mute'][9].Boolean = ctl.Boolean
+  end
+  function MuteEVT10(ctl)
+    Controls['Mute'][10].Boolean = ctl.Boolean
+  end
+  
+  -- this function resets the legends on the Display Name, Display Percent, and Display dB controls
+  function SetLegends(idx)
+      if(DebugFunction)then print("SetLegends entered with "..idx)end
+      if GainTbl[idx] ~= nil then
+        Controls['Display Name'][idx].String = Controls['Friendly Name'][idx].String
+        if Controls['Display Override'].Boolean then 
+            Controls['Display Percent'][idx].String = Controls['Friendly Name'][idx].String
+            Controls['Display dB'][idx].String = Controls['Friendly Name'][idx].String
+        else 
+          SetGainValues(idx)
+        end
+      end
+      Controls['Display Override'].Legend = Controls['Display Override'].Boolean and "On" or "Off"
+  end 
+  
+  -- function to assign % value to volume slider
+  function SetGainValues(idx)
+      -- start timer if Display Override is on
+      if Controls['Display Override'].Boolean then 
+        DisplayTextTimerTbl[idx]:Start(Controls['Reset Time'].Value)
+      end 
+      
+      -- percentage readout
+      local p = Controls['Fader '..tostring(idx)].Position
+      local percent = math.floor(tonumber(string.format("%.4s", p)) * 100)
+      Controls['Display Percent'][idx].String = tostring(percent).."%"
+  
+      -- db readout
+      Controls['Display dB'][idx].String = TextValue(Controls['Fader '..tostring(idx)].Value)
+  end 
+  
+  -- function to return the dB value of the fader
+  function TextValue(val)
+    if val < 1 and val > -1 then
+      return "0 dB"
+    elseif val >= 1 and val < 10 then
+      return string.format("+%.1s dB", val)
+    elseif val > 9.9 then
+      return string.format("+%.2s dB", val)
+    elseif val > -9.9 then
+      return string.format("%.2s dB", val)
+    elseif val < -9.9 and val > -99.9 then
+      return string.format("%.3s dB", val)  
+    else
+      return string.format("%.4s dB", val) 
+    end
+  end
+  
+  function CheckForDuplicateEntries(s)
+      local count = 0
+      for k,v in pairs (Controls['Component Name']) do
+        if v.String == s then
+          count = count + 1
+        end 
+      end 
+      if count > 1 and #s > 1 then 
+        return true
+      else 
+        return false
+      end 
+  end 
+  
+  
+  ---------------------------------------------------------------
+  -------------------------  EVTs -------------------------------
+  ---------------------------------------------------------------
+  
+  -- Component Name text boxes change
+  for i = 1, iMaxGains do 
+      Controls['Component Name'][i].EventHandler = function(ctl)
+        if CheckForDuplicateEntries(ctl.String) == true then 
+          Controls['Component Name'][i].String = "No Duplicates"
+          Controls['Component Name'][i].Color = ColorYellow
+          Timer.CallAfter(function() 
+            Controls['Component Name'][i].Color = ColorRed
+            Controls['Component Name'][i].String = EmptyComponentMessage
+            EvaluateNamedComponents(i)
+          end , 1)
+        else
+          EvaluateNamedComponents(i)
+        end 
+      end 
+  end 
+  
+  -- faders change
+  for i = 1, iMaxGains do 
+      Controls['Fader '..tostring(i)].EventHandler = function(ctl)
+        if GainTbl[i] ~= nil then 
+          GainTbl[i].Value = ctl.Value
+        end 
+      end 
+  end 
+  
+  -- mute button changes
+  for i = 1, iMaxGains do 
+    Controls['Mute'][i].EventHandler = function(ctl)
+      if MuteTbl[i] ~= nil then 
+          MuteTbl[i].Value = ctl.Value
+      end
+    end 
+  end 
+  
+  -- friendly names change
+  for i = 1, iMaxGains do 
+    Controls['Friendly Name'][i].EventHandler = function()
+      SetLegends(i)
+    end
+  end 
+  
+  -- display override changes
+  Controls['Display Override'].EventHandler = function(ctl)
+    for i = 1, iMaxGains do 
+      SetLegends(i)
+    end
+  end 
+  
+  -- gain up buttons
+  for i = 1, iMaxGains do 
+      Controls['Gain Up'][i].EventHandler = function(ctl)
+        if ctl.Boolean then 
+          GainTbl[i].Value = GainTbl[i].Value + 1
+          -- if user holds button it will begin the timer which will increment faster
+          Timer.CallAfter(function() 
+            if ctl.Boolean then 
+              ButtonUpDownTimerTbl[i]:Start(ButtonUpDownTimeout)
+            end
+          end, ButtonUpDownHoldTime)
+        else 
+          -- stop the respective timer
+          ButtonUpDownTimerTbl[i]:Stop()
+        end 
+      end 
+  end 
+  
+  -- gain down buttons
+  for i = 1, iMaxGains do 
+      Controls['Gain Down'][i].EventHandler = function(ctl)
+        if ctl.Boolean then 
+          GainTbl[i].Value = GainTbl[i].Value - 1
+          -- if user holds button it will begin the timer which will decrement faster
+          Timer.CallAfter(function() 
+            if ctl.Boolean then 
+              ButtonUpDownTimerTbl[i]:Start(ButtonUpDownTimeout)
+            end
+          end, ButtonUpDownHoldTime)
+        else 
+          -- stop the respective timer
+          ButtonUpDownTimerTbl[i]:Stop()
+        end 
+      end 
+  end 
+  
+  -- user controls - meter response time changes
+  Controls['Meter Response Time'].EventHandler = function(ctl)
+    MultiChannelMeter['response.time'].String = ctl.String
+  end 
+  
+  -- DisplayTextTimerTbl Timers stop
+  for k,v in pairs (DisplayTextTimerTbl) do 
+    v.EventHandler = function()
+      DisplayTextTimerTbl[k]:Stop()
+      if Controls['Display Override'].Boolean then 
+        SetLegends(k)
+      end
+    end 
+  end 
+  
+  -- ButtonUpDownTimerTbl Timers stop
+  for k,v in pairs (ButtonUpDownTimerTbl) do 
+    v.EventHandler = function()
+      if Controls['Gain Up'][k].Boolean then 
+        GainTbl[k].Value = GainTbl[k].Value + 1
+      elseif Controls['Gain Down'][k].Boolean then 
+        GainTbl[k].Value = GainTbl[k].Value - 1
+      end
+    end 
+  end 
+  
+  ----------------------- internal meter of the plugin changes
+  --- meters
+  for i = 1, iMaxGains do 
+      MultiChannelMeter['meter.'..i].EventHandler = function(ctl)
+        if GainTbl[i] ~= nil then
+          Controls['Meter'][i].Value = ctl.Value
+        end
+      end 
+  end 
+  
+  --- meter response time changes
+  MultiChannelMeter['response.time'].EventHandler = function(ctl)
+    Controls['Meter Response Time Display'].String = ctl.String
+  end
+  
+  ---------------------------------------------------------------
+  ------------------------  On Start ----------------------------
+  ---------------------------------------------------------------
+  if Controls then
+    -- print general info
+    print("=== Starting "..PluginInfo.Name.." V"..PluginInfo.Version.." ===")
+  
+    -- print if system is live or emulating
+    if e then
+      print("System Is Emulating")
+    else
+      print("System Is Live With Core")
+    end
+  
+    -- setup debug
+    if Properties["plugin_show_debug"].Value == false then 
+      DebugFunction=false
+    else 
+      DebugFunction=true
+    end
+  
+    -- set up the Named Components
+    for i = 1, iMaxGains do 
+      EvaluateNamedComponents(i) 
+    end
+  
+    -- clear all text entries over iMaxGains
+    for i = iMaxGains + 1, 10 do 
+        Controls['Component Name'][i].String = ""
+    end 
+  
+    -- set legends, strings
+    Controls['Display Override'].Legend = Controls['Display Override'].Boolean and "On" or "Off"
+    Controls['Meter Response Time Display'].String = MultiChannelMeter['response.time'].String
+  
+  
+    -- set values for meter times if plugin first start
+    if MultiChannelMeter['response.time'].String == "1.00s" then
+      Controls['Meter Response Time'].Value = 1000
+    else
+      Controls['Meter Response Time'].Value = math.floor((string.match(MultiChannelMeter['response.time'].String, "(%d.+)ms")))
+    end
+  end
+end
